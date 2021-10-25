@@ -1,0 +1,43 @@
+import React from 'react';
+import {useSelector} from "react-redux";
+import { StyleSheet, SafeAreaView , FlatList} from 'react-native';
+import ListItem from '../components/ListItem';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+});
+
+
+// export default ClipScreen = (navigation) => {
+export default ClipScreen = ({navigation}) => {
+    //useSelectorを使いstoreの情報をコンポーネントから参照することができた
+    // const user = useSelector(state => state.user);
+    const user = useSelector((state) => state.user);
+    const {clips} = user;
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <FlatList
+                data={clips}
+                renderItem ={({item}) =>(
+                    <ListItem
+                    imageUrl={item.urlToImage}
+                    title={item.title}
+                    author={item.author}
+                    onPress={() =>
+                        // props.navigation.navigate('Article', { article: item })
+                        navigation.navigate('Article', { article: item })
+                        //ここでarticleの画面遷移の道筋を示し、第二引数でニュースをURL ArticleScreenに渡す
+                    }
+                />
+                )
+                }
+                // エラー回避
+                keyExtractor={(item, index) => index.toString()}
+            />
+        </SafeAreaView >
+    );
+}
